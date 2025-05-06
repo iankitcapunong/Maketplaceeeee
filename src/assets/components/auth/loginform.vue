@@ -41,7 +41,7 @@ const onSubmit = async () => {
   } else if (data) {
     console.log(data)
     formAction.value.formSuccessMessage = 'Successfully Logged In.'
-    router.replace('/system/dashboard')
+    router.replace('/dashboard')
   }
 
   // Reset form and loading state

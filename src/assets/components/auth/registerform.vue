@@ -53,7 +53,7 @@ const onSubmit = async () => {
   } else if (data) {
     console.log(data)
     formAction.value.formSuccessMessage = 'Successfully Registered Account.'
-    router.replace('/system/dashboard')
+    router.replace('/dashboard')
   }
 
   refVform.value?.reset()
