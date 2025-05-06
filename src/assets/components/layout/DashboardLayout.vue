@@ -16,7 +16,10 @@ const menuItems = [
   {
     title: 'Orders',
     icon: 'mdi-cart-outline',
-    children: [{ title: 'All Orders', route: '/orderView' }],
+    children: [
+      { title: 'My Orders', route: '/orderView' },
+      { title: 'Order History', route: '/orderhistory' },
+    ],
   },
   {
     title: 'Settings',

@@ -18,9 +18,7 @@ const fetchOrders = async () => {
     return
   }
 
-  orders.value = data
-
-  // Count
+  // Update orders data
   totalOrders.value = data.length
   pendingOrders.value = data.filter((o) => o.status === 'Pending').length
   deliveredOrders.value = data.filter((o) => o.status === 'Delivered').length
@@ -42,56 +40,87 @@ onMounted(fetchOrders)
 <template>
   <DashboardLayout>
     <template #default>
-      <v-container fluid>
-        <h2 class="text-h5 font-weight-bold mb-4">📊 Dashboard</h2>
+      <v-container fluid class="pa-6">
+        <h2 class="text-h4 font-weight-bold mb-6">📊 Dashboard</h2>
 
         <!-- Stats Cards -->
         <v-row dense>
           <v-col cols="12" sm="6" md="3">
-            <v-card class="pa-4">
-              <h3>Total Orders</h3>
-              <p class="text-h6 font-weight-bold">{{ totalOrders }}</p>
+            <v-card class="elevation-2 rounded-xl">
+              <v-card-text class="text-center">
+                <h4 class="text-h6 font-weight-bold">Total Orders</h4>
+                <p class="text-h5 font-weight-bold">{{ totalOrders }}</p>
+              </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-card class="pa-4">
-              <h3>Pending</h3>
-              <p class="text-h6 font-weight-bold text-warning">{{ pendingOrders }}</p>
+            <v-card class="elevation-2 rounded-xl">
+              <v-card-text class="text-center">
+                <h4 class="text-h6 font-weight-bold">Pending</h4>
+                <p class="text-h5 font-weight-bold text-warning">{{ pendingOrders }}</p>
+              </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-card class="pa-4">
-              <h3>Delivered</h3>
-              <p class="text-h6 font-weight-bold text-success">{{ deliveredOrders }}</p>
+            <v-card class="elevation-2 rounded-xl">
+              <v-card-text class="text-center">
+                <h4 class="text-h6 font-weight-bold">Delivered</h4>
+                <p class="text-h5 font-weight-bold text-success">{{ deliveredOrders }}</p>
+              </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-card class="pa-4">
-              <h3>Canceled</h3>
-              <p class="text-h6 font-weight-bold text-error">{{ canceledOrders }}</p>
+            <v-card class="elevation-2 rounded-xl">
+              <v-card-text class="text-center">
+                <h4 class="text-h6 font-weight-bold">Canceled</h4>
+                <p class="text-h5 font-weight-bold text-error">{{ canceledOrders }}</p>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
 
-        <div class="d-flex justify-space-between align-center mb-4">
-          <h3 class="text-h6 font-weight-bold">📦 Recent Orders</h3>
-          <v-btn color="primary" @click="$router.push('/OrderView')">My Orders</v-btn>
+        <!-- Recent Orders Section -->
+        <div class="d-flex justify-space-between align-center mt-5 mb-6">
+          <h3 class="text-h5 font-weight-bold">📦 Recent Orders</h3>
+          <v-btn color="primary" @click="$router.push('/OrderView')" class="text-transform-none">
+            View All Orders
+          </v-btn>
         </div>
 
         <!-- Recent Orders Table -->
-        <v-card class="mt-6">
-          <v-card-title>🧾 Recent Orders</v-card-title>
+        <v-card class="elevation-2 rounded-xl mt-6">
+          <v-card-title class="text-h6 font-weight-bold">🧾 Recent Orders</v-card-title>
           <v-data-table
             :headers="[
-              { text: 'Name', value: 'name' },
+              { text: 'Product Name', value: 'name' },
               { text: 'Quantity', value: 'quantity' },
               { text: 'Total Price', value: 'total_price' },
               { text: 'Status', value: 'status' },
             ]"
             :items="recentOrders"
-            class="elevation-1"
             hide-default-footer
-          />
+            item-value="order_item_id"
+            item-key="order_item_id"
+            :items-per-page="5"
+            :loading="!recentOrders.length"
+          >
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                size="small"
+                :color="
+                  {
+                    Pending: 'orange',
+                    Delivered: 'green',
+                    Canceled: 'red',
+                  }[item.status] || 'grey'
+                "
+                text-color="white"
+                class="font-weight-medium"
+              >
+                {{ item.status }}
+              </v-chip>
+            </template>
+          </v-data-table>
         </v-card>
       </v-container>
     </template>

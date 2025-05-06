@@ -105,149 +105,146 @@ onMounted(getUser)
   <DashboardLayout>
     <template #default>
       <v-container fluid class="pa-4">
-        <v-row justify="center">
-          <v-col cols="12" md="10" lg="8">
-            <h2 class="text-h5 font-weight-bold mb-6 text-center text-primary">
-              👤 Profile Settings
-            </h2>
+        <v-col cols="12" md="10" lg="12">
+          <h2 class="text-h5 font-weight-bold mb-6 text-center text-primary">
+            👤 Profile Settings
+          </h2>
 
-            <!-- Updated v-card with refined design -->
-            <v-card
-              class="pa-8 rounded-xl elevation-5"
-              style="
-                background: #fafafa;
-                max-width: 1000px;
-                margin: 0 auto;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-              "
-            >
-              <div class="d-flex align-center mb-6">
-                <v-avatar
-                  size="96"
-                  class="elevation-2"
-                  style="
-                    border: 3px solid #ccc;
-                    transition:
-                      transform 0.3s ease,
-                      border-color 0.3s ease;
-                  "
-                  @mouseover="hoverAvatar = true"
-                  @mouseleave="hoverAvatar = false"
-                  :style="{
-                    transform: hoverAvatar ? 'scale(1.1)' : 'scale(1)',
-                    borderColor: hoverAvatar ? '#42a5f5' : '#ccc',
-                  }"
-                >
-                  <img
-                    v-if="imageUrl"
-                    :src="imageUrl"
-                    alt="Avatar"
-                    class="rounded-circle"
-                    style="width: 100%; height: 100%; object-fit: cover"
-                  />
-                  <v-icon v-else size="64" color="grey">mdi-account</v-icon>
-                </v-avatar>
+          <v-card
+            class="pa-9 rounded-xl elevation-5"
+            style="
+              background: #fafafa;
+              max-width: 1000px;
+              margin: 0 auto;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <div class="d-flex align-center mb-6">
+              <v-avatar
+                size="96"
+                class="elevation-2"
+                style="
+                  border: 3px solid #ccc;
+                  transition:
+                    transform 0.3s ease,
+                    border-color 0.3s ease;
+                "
+                @mouseover="hoverAvatar = true"
+                @mouseleave="hoverAvatar = false"
+                :style="{
+                  transform: hoverAvatar ? 'scale(1.1)' : 'scale(1)',
+                  borderColor: hoverAvatar ? '#42a5f5' : '#ccc',
+                }"
+              >
+                <img
+                  v-if="imageUrl"
+                  :src="imageUrl"
+                  alt="Avatar"
+                  class="rounded-circle"
+                  style="width: 100%; height: 100%; object-fit: cover"
+                />
+                <v-icon v-else size="64" color="grey">mdi-account</v-icon>
+              </v-avatar>
 
-                <div class="ms-4">
-                  <div class="text-subtitle-1 font-weight-medium mb-2">
-                    {{ userData.name || 'Your Name' }}
-                  </div>
-                  <v-btn
-                    v-if="isEditing"
-                    variant="text"
-                    color="primary"
-                    class="text-capitalize px-0"
-                    @click="$refs.fileInput.click()"
-                  >
-                    Change Photo
-                  </v-btn>
-                  <input
-                    ref="fileInput"
-                    type="file"
-                    accept="image/*"
-                    class="d-none"
-                    @change="handleFileChange"
-                  />
+              <div class="ms-4">
+                <div class="text-subtitle-1 font-weight-medium mb-2">
+                  {{ userData.name || 'Your Name' }}
                 </div>
-              </div>
-
-              <v-divider class="mb-6"></v-divider>
-              <v-row dense>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    label="Full Name"
-                    v-model="userData.name"
-                    :disabled="!isEditing"
-                    variant="filled"
-                    hide-details
-                    class="modern-field"
-                    outlined
-                  />
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    label="Address"
-                    v-model="userData.address"
-                    :disabled="!isEditing"
-                    variant="filled"
-                    hide-details
-                    class="modern-field"
-                    outlined
-                  />
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    label="Email"
-                    v-model="userData.email"
-                    disabled
-                    append-inner-icon="mdi-check-circle"
-                    color="success"
-                    variant="filled"
-                    hide-details
-                    class="modern-field"
-                    outlined
-                  />
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    label="Contact No."
-                    v-model="userData.contactNo"
-                    :disabled="!isEditing"
-                    variant="filled"
-                    hide-details
-                    class="modern-field"
-                    outlined
-                  />
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-date-input
-                    label="Birthday"
-                    type="birth_date"
-                    v-model="userData.birth_date"
-                    :disabled="!isEditing"
-                    variant="filled"
-                    hide-details
-                    class="modern-field"
-                    outlined
-                  />
-                </v-col>
-              </v-row>
-
-              <v-divider class="mt-6 mb-4"></v-divider>
-              <div class="d-flex justify-end">
                 <v-btn
-                  variant="contained"
+                  v-if="isEditing"
+                  variant="text"
                   color="primary"
-                  class="text-capitalize"
-                  @click="toggleEdit"
-                  style="min-width: 150px"
+                  class="text-capitalize px-0"
+                  @click="$refs.fileInput.click()"
                 >
-                  {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+                  Change Photo
                 </v-btn>
+                <input
+                  ref="fileInput"
+                  type="file"
+                  accept="image/*"
+                  class="d-none"
+                  @change="handleFileChange"
+                />
               </div>
-            </v-card>
-          </v-col>
-        </v-row>
+            </div>
+
+            <v-divider class="mb-6"></v-divider>
+            <v-row dense>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  label="Full Name"
+                  v-model="userData.name"
+                  :disabled="!isEditing"
+                  variant="filled"
+                  hide-details
+                  class="modern-field"
+                  outlined
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  label="Address"
+                  v-model="userData.address"
+                  :disabled="!isEditing"
+                  variant="filled"
+                  hide-details
+                  class="modern-field"
+                  outlined
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  label="Email"
+                  v-model="userData.email"
+                  disabled
+                  append-inner-icon="mdi-check-circle"
+                  color="success"
+                  variant="filled"
+                  hide-details
+                  class="modern-field"
+                  outlined
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  label="Contact No."
+                  v-model="userData.contactNo"
+                  :disabled="!isEditing"
+                  variant="filled"
+                  hide-details
+                  class="modern-field"
+                  outlined
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-date-input
+                  label="Birthday"
+                  type="birth_date"
+                  v-model="userData.birth_date"
+                  :disabled="!isEditing"
+                  variant="filled"
+                  hide-details
+                  class="modern-field"
+                  outlined
+                />
+              </v-col>
+            </v-row>
+
+            <v-divider class="mt-6 mb-4"></v-divider>
+            <div class="d-flex justify-end">
+              <v-btn
+                variant="contained"
+                color="primary"
+                class="text-capitalize"
+                @click="toggleEdit"
+                style="min-width: 150px"
+              >
+                {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+              </v-btn>
+            </div>
+          </v-card>
+        </v-col>
       </v-container>
     </template>
   </DashboardLayout>
