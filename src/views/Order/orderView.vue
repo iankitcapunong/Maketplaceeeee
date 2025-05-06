@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { supabase } from '@/utils/supabase.js'
+import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 
-// reactive variables
 const orders = ref([])
 const showOrderDialog = ref(false)
 const selectedOrderId = ref(null)
@@ -10,7 +10,6 @@ const quantity = ref(1)
 
 const fetchOrders = async () => {
   const { data, error } = await supabase.from('Orders').select('*')
-  .in('status', ['Pending'])
   if (error) {
     console.error('Error fetching Orders:', error)
   } else {
@@ -18,7 +17,10 @@ const fetchOrders = async () => {
   }
 }
 
-
+const cancelOrder = async (order_item_id) => {
+  await supabase.from('Orders').delete().eq('order_item_id', order_item_id)
+  fetchOrders()
+}
 
 const openEditDialog = (order) => {
   selectedOrderId.value = order.order_item_id
@@ -29,94 +31,141 @@ const openEditDialog = (order) => {
 const markAsDelivered = async (order_item_id) => {
   const { error } = await supabase
     .from('Orders')
-    .update({ 
-        quantity: quantity.value })
+    .update({
+      quantity: quantity.value,
+      status: 'Delivered',
+    })
     .eq('order_item_id', order_item_id)
 
   if (error) {
     console.error('Error delivering order:', error)
-    alert("Failed to update status.")
+    alert('Failed to update status.')
   } else {
-    alert("Order marked as Delivered!")
+    alert('Order marked as Delivered!')
+    showOrderDialog.value = false
     fetchOrders()
   }
 }
 
+const headers = [
+  { text: 'Product Name', align: 'start', key: 'name' },
+  { text: 'Quantity', key: 'quantity' },
+  { text: 'Total Price', key: 'total_price' },
+  { text: 'Status', key: 'status' },
+  { text: 'Actions', key: 'actions', sortable: false },
+]
 
 onMounted(fetchOrders)
 </script>
 
-
 <template>
-  <v-row>
-    <v-col cols="12" class="px-6 pt-2">
-      <h2 class="text-h5 font-weight-bold mb-6 text-center">📦 My Orders</h2>
+  <DashboardLayout>
+    <template #default>
+      <v-container fluid>
+        <v-col cols="12" md="12" lg="12">
+          <v-card elevation="5" class="pa-6 rounded-xl shadow-lg">
+            <v-card-title class="text-h5 font-weight-bold text-center mb-4">
+              📦 My Order
+            </v-card-title>
 
-      <h1>🛒 Ordered Products</h1>
+            <v-divider class="my-4" />
 
-      <v-divider class="my-2" />
+            <v-card-subtitle class="text-h6 font-weight-medium mb-4 text-center">
+              🛒 Ordered Products
+            </v-card-subtitle>
 
-      <v-card>
-        <v-card-text class="overflow-y-auto flex-grow-1 px-0">
-          <v-table density="comfortable">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="order in orders" :key="order.order_item_id">
-                <td>{{ order.name }}</td>
-                <td>{{ order.quantity }}</td>
-                <td>₱ {{ order.total_price }}</td>
-                <td>
-                  <v-chip :color="order.status === 'Pending' ? 'orange' : 'grey'" text-color="white" small>
-                    {{ order.status }}
-                  </v-chip>
-                </td>
-                <td>
-                  <v-btn class="mr-2" icon size="x-small" @click="openEditDialog(order)">
-                    <v-icon size="16">mdi-calendar-edit</v-icon>
-                  </v-btn>
-                 
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-card-text>
+            <!-- Virtualized Data Table -->
+            <v-data-table-virtual
+              :headers="headers"
+              :items="orders"
+              item-value="order_item_id"
+              height="400"
+              class="elevation-1"
+              fixed-header
+              density="comfortable"
+            >
+              <template #no-data>
+                <div class="text-center text-grey pa-6">No orders found.</div>
+              </template>
 
-        <v-divider class="mt-2" />
-        <div class="d-flex justify-start" style="position: absolute; bottom: 16px; left: 16px;">
-          <v-btn color="green" rounded class="text-white" to="/OrderHistory">
-            View History
-          </v-btn>
-        </div>
-      </v-card>
-    </v-col>
-  </v-row>
+              <template #item.status="{ item }">
+                <v-chip
+                  small
+                  :color="
+                    {
+                      Pending: 'orange',
+                      Delivered: 'green',
+                      Canceled: 'red',
+                    }[item.status] || 'grey'
+                  "
+                  text-color="white"
+                >
+                  {{ item.status }}
+                </v-chip>
+              </template>
 
-  <!-- Edit Order Dialog -->
-  <v-dialog v-model="showOrderDialog" max-width="400">
-    <v-card>
-      <v-card-title>Edit Quantity</v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="quantity"
-          label="Quantity"
-          type="number"
-          min="1"
-          density="compact"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn variant="text" @click="showOrderDialog = false">Cancel</v-btn>
-        <v-btn color="green" text @click="markAsDelivered(selectedOrderId)">Save</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+              <template #item.actions="{ item }">
+                <v-tooltip text="Edit Order">
+                  <template #activator="{ on, attrs }">
+                    <v-btn icon size="small" v-bind="attrs" v-on="on" @click="openEditDialog(item)">
+                      <v-icon>mdi-calendar-edit</v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+
+                <v-tooltip text="Cancel Order">
+                  <template #activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      size="small"
+                      color="red"
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="cancelOrder(item.order_item_id)"
+                    >
+                      <v-icon>mdi-cancel</v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+              </template>
+            </v-data-table-virtual>
+
+            <v-card-actions class="mt-4 justify-start">
+              <v-btn color="primary" rounded class="text-white">View History</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+
+        <!-- Edit Order Dialog -->
+        <v-dialog v-model="showOrderDialog" max-width="400">
+          <v-card class="rounded-xl">
+            <v-card-title class="text-h6 font-weight-medium">
+              Update Quantity & Mark as Delivered
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="quantity"
+                label="Quantity"
+                type="number"
+                min="1"
+                density="comfortable"
+                class="mb-4"
+              />
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn variant="text" @click="showOrderDialog = false">Cancel</v-btn>
+              <v-btn color="green" variant="flat" @click="markAsDelivered(selectedOrderId)">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-container>
+    </template>
+  </DashboardLayout>
 </template>
+
+<style scoped>
+/* No changes needed here */
+</style>
