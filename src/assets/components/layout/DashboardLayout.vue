@@ -11,7 +11,7 @@ const menuItems = [
   {
     title: 'Products',
     icon: 'mdi-cube-outline',
-    children: [{ title: 'All Products', route: '/product' }],
+    children: [{ title: 'All Products', route: '/dashboard' }],
   },
   {
     title: 'Orders',
@@ -19,9 +19,9 @@ const menuItems = [
     children: [{ title: 'All Orders', route: '/orderView' }],
   },
   {
-    title: 'Settings',
-    icon: 'mdi-cog-outline',
-    route: '/accountview',
+    title: 'Account',
+    icon: 'mdi-account-outline',
+    children: [{ title: 'Account Information', route: '/accountview' }],
   },
 ]
 </script>

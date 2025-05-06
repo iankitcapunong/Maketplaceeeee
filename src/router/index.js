@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
-// import DashboardView from '@/views/Product/DashboardView.vue'
 import OrderView from '@/views/Order/OrderView.vue'
 import OrderHistory from '@/views/Order/OrderHistory.vue'
 import ProductView from '@/views/Product/ProductView.vue'
@@ -21,13 +20,8 @@ const router = createRouter({
       name: 'register',
       component: RegisterView,
     },
-    // {
-    //   path: '/dashboard',
-    //   name: 'dashboard',
-    //   component: DashboardView,
-    // },
     {
-      path: '/product',
+      path: '/dashboard',
       name: 'product',
       component: ProductView,
     },
