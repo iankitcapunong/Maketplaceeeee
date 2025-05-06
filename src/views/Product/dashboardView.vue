@@ -32,17 +32,19 @@ const placeOrder = async () => {
 
   const total_price = selectedProduct.value.price * quantity.value
 
-  const { error } = await supabase.from('Orders').insert([
-    {
-      user_id: user.id,
-      quantity: quantity.value,
-      price: selectedProduct.value.price,
-      total_price: total_price,
-      image_url: selectedProduct.value.image_url,
-      name: selectedProduct.value.name,
-      type: selectedProduct.value.type
-    }
-  ])
+  const { data, error } = await supabase
+  .from('Orders')
+  .insert([{
+    user_id: user.id,
+    quantity: quantity.value,
+    price: selectedProduct.value.price,
+    image_url: selectedProduct.value.image_url,
+    name: selectedProduct.value.name,
+    type: selectedProduct.value.type
+  }])
+  .select()
+
+
 
   if (error) {
     console.error('Order failed:', error)
