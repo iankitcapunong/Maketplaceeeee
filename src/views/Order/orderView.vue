@@ -17,8 +17,8 @@ const fetchOrders = async () => {
   }
 }
 
-const cancelOrder = async (orderId) => {
-  await supabase.from('Orders').delete().eq('order_item_id', orderId)
+const cancelOrder = async (order_item_id) => {
+  await supabase.from('Orders').delete().eq('order_item_id', order_item_id)
   fetchOrders()
 }
 
@@ -98,7 +98,7 @@ onMounted(fetchOrders)
                   <v-btn class="mr-2" icon size="x-small" @click="openEditDialog(order)">
                     <v-icon size="16">mdi-calendar-edit</v-icon>
                   </v-btn>
-                  <v-btn icon size="x-small" color="red" @click="updateOrderStatus(order.order_item_id)">
+                  <v-btn icon size="x-small" color="red" @click="cancelOrder(order.order_item_id)">
                     <v-icon size="16">mdi-cancel</v-icon>
                   </v-btn>
                 </td>
