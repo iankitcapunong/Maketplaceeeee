@@ -1,6 +1,6 @@
 <script setup>
 // import { ref } from 'vue'
-import loginform from '@/assets/components/auth/loginform.vue'
+import LoginForm from '@/assets/components/auth/LoginForm.vue'
 </script>
 
 <template>
@@ -17,7 +17,7 @@ import loginform from '@/assets/components/auth/loginform.vue'
             <v-card-title class="font-weight-black">Marketplace</v-card-title>
             <v-card-subtitle class="font-weight-light">LOG IN TO CONTINUE</v-card-subtitle>
           </v-card-item>
-          <loginform></loginform>
+          <LoginForm></LoginForm>
 
           <v-card-text class="text-center text">
             New User?
@@ -28,7 +28,7 @@ import loginform from '@/assets/components/auth/loginform.vue'
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
+                Sign up now ! <v-icon icon="mdi-chevron-right"></v-icon>
               </a>
             </router-link>
           </v-card-text>

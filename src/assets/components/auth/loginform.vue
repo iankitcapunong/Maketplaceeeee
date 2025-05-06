@@ -21,9 +21,9 @@ const formAction = ref({
 })
 
 // Optional: Can remove if not needed
-const onLogin = () => {
-  alert(JSON.stringify(formData.value, null, 2))
-}
+// const onLogin = () => {
+//   alert(JSON.stringify(formData.value, null, 2))
+// }
 
 const onSubmit = async () => {
   formAction.value = { ...formActionDefault }
