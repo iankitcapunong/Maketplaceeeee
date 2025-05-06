@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
 import DashboardView from '@/views/Product/DashboardView.vue'
-import orderView from '@/views/Order/orderView.vue'
+import OrderView from '@/views/Order/OrderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/orderView',
       name: 'orderView',
-      component: orderView,
+      component: OrderView,
     },
   ],
 })
