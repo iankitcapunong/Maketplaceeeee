@@ -5,9 +5,6 @@ import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 
 // reactive variables
 const orders = ref([])
-const showOrderDialog = ref(false)
-const selectedOrderId = ref(null)
-const quantity = ref(1)
 
 const fetchOrders = async () => {
   const { data, error } = await supabase.from('Orders').select('*').in('status', ['Delivered'])
@@ -23,36 +20,35 @@ const cancelOrder = async (order_item_id) => {
   fetchOrders()
 }
 
-const openEditDialog = (order) => {
-  selectedOrderId.value = order.order_item_id
-  quantity.value = order.quantity
-  showOrderDialog.value = true
-}
-
 onMounted(fetchOrders)
 </script>
 
 <template>
   <DashboardLayout>
     <template #default>
-      <v-row>
-        <v-col cols="12" class="px-6 pt-2">
-          <h2 class="text-h5 font-weight-bold mb-6 text-center">📦 My Orders</h2>
+      <v-container fluid class="pa-6">
+        <v-row>
+          <v-col cols="12">
+            <v-card class="pa-6 elevation-10 rounded-xl">
+              <!-- Page Header -->
+              <v-card-title class="text-h4 font-weight-bold text-primary text-center mb-1">
+                📦 Delivered Orders
+              </v-card-title>
+              <v-card-subtitle class="text-center text-body-1 text-medium-emphasis mb-4">
+                View all your completed purchases below.
+              </v-card-subtitle>
 
-          <h1>🛒 Ordered Products</h1>
+              <v-divider class="mb-4" />
 
-          <v-divider class="my-2" />
-
-          <v-card>
-            <v-card-text class="overflow-y-auto flex-grow-1 px-0">
-              <v-table density="comfortable">
+              <!-- Table -->
+              <v-table density="comfortable" class="v-table--striped text-center">
                 <thead>
                   <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th class="text-center font-weight-bold">Product Name</th>
+                    <th class="text-center font-weight-bold">Quantity</th>
+                    <th class="text-center font-weight-bold">Total Price</th>
+                    <th class="text-center font-weight-bold">Status</th>
+                    <th class="text-center font-weight-bold">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -62,35 +58,78 @@ onMounted(fetchOrders)
                     <td>₱ {{ order.total_price }}</td>
                     <td>
                       <v-chip
-                        :color="order.status === 'Pending' ? 'orange' : 'grey'"
+                        size="small"
+                        :color="
+                          {
+                            Pending: 'orange',
+                            Delivered: 'green',
+                            Canceled: 'red',
+                          }[order.status] || 'grey'
+                        "
                         text-color="white"
-                        small
+                        class="font-weight-medium"
                       >
                         {{ order.status }}
                       </v-chip>
                     </td>
                     <td>
-                      <v-btn
-                        icon
-                        size="x-small"
-                        color="red"
-                        @click="cancelOrder(order.order_item_id)"
-                      >
-                        <v-icon size="16">mdi-cancel</v-icon>
-                      </v-btn>
+                      <v-tooltip text="Delete Order">
+                        <template #activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            size="small"
+                            color="red"
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="cancelOrder(order.order_item_id)"
+                          >
+                            <v-icon size="18">mdi-delete</v-icon>
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
                     </td>
                   </tr>
                 </tbody>
               </v-table>
-            </v-card-text>
 
-            <v-divider class="mt-2" />
-            <div class="d-flex justify-start" style="position: absolute; bottom: 16px; left: 16px">
-              <v-btn color="green" rounded class="text-white" to="/OrderView"> View Orders </v-btn>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+              <!-- No orders -->
+              <div v-if="orders.length === 0" class="text-center py-6 text-medium-emphasis">
+                No delivered orders to show.
+              </div>
+
+              <!-- CTA -->
+              <v-divider class="my-4" />
+              <v-row justify="end" class="pr-4 pb-2">
+                <v-col cols="auto">
+                  <router-link to="/OrderView">
+                    <v-btn color="primary" rounded elevation="2" class="text-white px-6">
+                      View All Orders
+                    </v-btn>
+                  </router-link>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </template>
   </DashboardLayout>
 </template>
+
+<style scoped>
+.v-card {
+  background-color: #fff;
+}
+
+.v-chip {
+  text-transform: capitalize;
+}
+
+.v-btn {
+  transition: 0.3s ease;
+}
+
+.v-table--striped tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+</style>

@@ -61,85 +61,113 @@ onMounted(fetchOrders)
 <template>
   <DashboardLayout>
     <template #default>
-      <v-container fluid>
-        <v-col cols="12" md="12" lg="12">
-          <v-card elevation="5" class="pa-6 rounded-xl shadow-lg">
-            <v-card-title class="text-h5 font-weight-bold text-center mb-4">
-              📦 My Order
-            </v-card-title>
+      <v-container fluid class="pa-6">
+        <v-row>
+          <v-col cols="12">
+            <v-card class="pa-6 elevation-10 rounded-xl">
+              <!-- Title -->
+              <v-card-title class="text-h4 font-weight-bold text-primary text-center mb-1">
+                📦 My Orders
+              </v-card-title>
 
-            <v-divider class="my-4" />
+              <!-- Subtitle -->
+              <v-card-subtitle class="text-center text-body-1 text-medium-emphasis mb-4">
+                🛒 Manage and track all your purchases with ease.
+              </v-card-subtitle>
 
-            <v-card-subtitle class="text-h6 font-weight-medium mb-4 text-center">
-              🛒 Ordered Products
-            </v-card-subtitle>
+              <v-divider class="mb-4" />
 
-            <!-- Virtualized Data Table -->
-            <v-data-table-virtual
-              :headers="headers"
-              :items="orders"
-              item-value="order_item_id"
-              height="400"
-              class="elevation-1"
-              fixed-header
-              density="comfortable"
-            >
-              <template #no-data>
-                <div class="text-center text-grey pa-6">No orders found.</div>
-              </template>
+              <v-table density="comfortable" class="v-table--striped text-center">
+                <thead>
+                  <tr>
+                    <th class="text-center font-weight-bold">Product Name</th>
+                    <th class="text-center font-weight-bold">Quantity</th>
+                    <th class="text-center font-weight-bold">Total Price</th>
+                    <th class="text-center font-weight-bold">Status</th>
+                    <th class="text-center font-weight-bold">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="order in orders" :key="order.order_item_id">
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>₱ {{ order.total_price }}</td>
+                    <td>
+                      <v-chip
+                        size="small"
+                        :color="
+                          {
+                            Pending: 'orange',
+                            Delivered: 'green',
+                            Canceled: 'red',
+                          }[order.status] || 'grey'
+                        "
+                        text-color="white"
+                        class="font-weight-medium"
+                      >
+                        {{ order.status }}
+                      </v-chip>
+                    </td>
+                    <td>
+                      <div class="">
+                        <!-- Edit -->
+                        <v-tooltip text="Edit Order">
+                          <template #activator="{ on, attrs }">
+                            <v-btn
+                              icon
+                              size="small"
+                              color="primary"
+                              class="mr-3"
+                              v-bind="attrs"
+                              v-on="on"
+                              @click="openEditDialog(order)"
+                            >
+                              <v-icon size="18">mdi-calendar-edit</v-icon>
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
 
-              <template #item.status="{ item }">
-                <v-chip
-                  small
-                  :color="
-                    {
-                      Pending: 'orange',
-                      Delivered: 'green',
-                      Canceled: 'red',
-                    }[item.status] || 'grey'
-                  "
-                  text-color="white"
-                >
-                  {{ item.status }}
-                </v-chip>
-              </template>
+                        <!-- Cancel -->
+                        <v-tooltip text="Cancel Order">
+                          <template #activator="{ on, attrs }">
+                            <v-btn
+                              icon
+                              size="small"
+                              color="red"
+                              v-bind="attrs"
+                              v-on="on"
+                              @click="cancelOrder(order.order_item_id)"
+                            >
+                              <v-icon size="18">mdi-cancel</v-icon>
+                            </v-btn>
+                          </template>
+                        </v-tooltip>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
 
-              <template #item.actions="{ item }">
-                <v-tooltip text="Edit Order">
-                  <template #activator="{ on, attrs }">
-                    <v-btn icon size="small" v-bind="attrs" v-on="on" @click="openEditDialog(item)">
-                      <v-icon>mdi-calendar-edit</v-icon>
+              <!-- Divider & CTA -->
+              <v-divider class="my-4" />
+
+              <v-row justify="end" class="pr-2 pb-1">
+                <v-col cols="auto">
+                  <router-link to="/orderhistory">
+                    <v-btn color="primary" class="text-white px-6" rounded elevation="2">
+                      View Order History
                     </v-btn>
-                  </template>
-                </v-tooltip>
+                  </router-link>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
 
-                <v-tooltip text="Cancel Order">
-                  <template #activator="{ on, attrs }">
-                    <v-btn
-                      icon
-                      size="small"
-                      color="red"
-                      v-bind="attrs"
-                      v-on="on"
-                      @click="cancelOrder(item.order_item_id)"
-                    >
-                      <v-icon>mdi-cancel</v-icon>
-                    </v-btn>
-                  </template>
-                </v-tooltip>
-              </template>
-            </v-data-table-virtual>
-
-            <v-card-actions class="mt-4 justify-start">
-              <v-btn color="primary" rounded class="text-white">View History</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-
-        <!-- Edit Order Dialog -->
+        <!-- Dialog -->
         <v-dialog v-model="showOrderDialog" max-width="400">
           <v-card class="rounded-xl">
-            <v-card-title class="text-h6 font-weight-medium">
+            <v-card-title class="text-h6 font-weight-bold">
               Update Quantity & Mark as Delivered
             </v-card-title>
             <v-card-text>
@@ -167,5 +195,19 @@ onMounted(fetchOrders)
 </template>
 
 <style scoped>
-/* No changes needed here */
+.v-card {
+  background-color: #fff;
+}
+
+.v-chip {
+  text-transform: capitalize;
+}
+
+.v-btn {
+  transition: 0.3s ease;
+}
+
+.v-table--striped tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
 </style>
