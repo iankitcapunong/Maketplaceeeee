@@ -9,6 +9,7 @@ const quantity = ref(1)
 
 const fetchProducts = async () => {
   const { data, error } = await supabase.from('Products').select('*')
+  
   if (error) {
     console.error('Error fetching products:', error)
   } else {
@@ -40,7 +41,8 @@ const placeOrder = async () => {
     price: selectedProduct.value.price,
     image_url: selectedProduct.value.image_url,
     name: selectedProduct.value.name,
-    type: selectedProduct.value.type
+    type: selectedProduct.value.type,
+    status: 'Pending'
   }])
   .select()
 
