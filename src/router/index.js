@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
-import ProductView from '@/views/Product/ProductView.vue'
+// import DashboardView from '@/views/Product/DashboardView.vue'
 import OrderView from '@/views/Order/OrderView.vue'
 import OrderHistory from '@/views/Order/OrderHistory.vue'
+import ProductView from '@/views/Product/ProductView.vue'
 import AccountView from '@/views/Account/AccountView.vue'
-import MainDashboard from '@/views/mainDashboard.vue'
+import MainDashboard from '@/views/MainDashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +21,14 @@ const router = createRouter({
       name: 'register',
       component: RegisterView,
     },
+    // {
+    //   path: '/dashboard',
+    //   name: 'dashboard',
+    //   component: DashboardView,
+    // },
     {
-      path: '/dashboard',
-      name: 'dashboard',
+      path: '/product',
+      name: 'product',
       component: ProductView,
     },
     {
@@ -44,7 +50,7 @@ const router = createRouter({
       path: '/maindashboard',
       name: 'maindashboard',
       component: MainDashboard,
-    }
+    },
   ],
 })
 
