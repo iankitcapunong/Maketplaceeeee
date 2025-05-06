@@ -28,7 +28,7 @@ import loginform from '@/assets/components/auth/loginform.vue'
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
+                Sign up now ! <v-icon icon="mdi-chevron-right"></v-icon>
               </a>
             </router-link>
           </v-card-text>
