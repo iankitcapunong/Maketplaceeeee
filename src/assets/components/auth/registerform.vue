@@ -14,7 +14,7 @@ const router = useRouter()
 
 // Default form values
 const formDataDefault = {
-  Name: '',
+  name: '',
   email: '',
   password: '',
   password_confirmation: '',
@@ -73,61 +73,103 @@ const onFormSubmit = () => {
     :form-error-message="formAction.formErrorMessage"
   />
 
-  <v-form class="mt-5" ref="refVform" @submit.prevent="onFormSubmit">
-    <div class="text-subtitle-1 text-medium-emphasis">Name</div>
+  <v-form ref="refVform" @submit.prevent="onFormSubmit" class="register-form">
     <v-text-field
-      v-model="formData.Name"
-      density="compact"
+      v-model="formData.name"
+      label="Name"
+      density="comfortable"
       variant="outlined"
       :rules="[requiredValidator]"
+      class="mb-5"
+      clearable
+      prepend-inner-icon="mdi-account"
     />
 
-    <div class="text-subtitle-1 text-medium-emphasis">Email</div>
     <v-text-field
       v-model="formData.email"
-      density="compact"
+      label="Email"
+      placeholder="example@domain.com"
       prepend-inner-icon="mdi-email-outline"
-      variant="outlined"
       :rules="[requiredValidator, emailValidator]"
+      variant="outlined"
+      density="comfortable"
+      class="mb-5"
+      clearable
     />
 
-    <div class="text-subtitle-1 text-medium-emphasis text-green">Password</div>
     <v-text-field
       v-model="formData.password"
-      :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
-      prepend-inner-icon="mdi-lock-outline"
-      :type="isPasswordVisible ? 'text' : 'password'"
-      density="compact"
+      label="Password"
       placeholder="*******"
-      variant="outlined"
+      prepend-inner-icon="mdi-lock-outline"
+      :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+      :type="isPasswordVisible ? 'text' : 'password'"
       @click:append-inner="isPasswordVisible = !isPasswordVisible"
       :rules="[requiredValidator, passwordValidator]"
+      variant="outlined"
+      density="comfortable"
+      class="mb-5"
+      clearable
     />
 
-    <div class="text-subtitle-1 text-medium-emphasis text-green">Confirm Password</div>
     <v-text-field
       v-model="formData.password_confirmation"
-      :append-inner-icon="isPasswordConfirmVisible ? 'mdi-eye-off' : 'mdi-eye'"
-      prepend-inner-icon="mdi-lock-outline"
-      :type="isPasswordConfirmVisible ? 'text' : 'password'"
-      density="compact"
+      label="Confirm Password"
       placeholder="*******"
-      variant="outlined"
+      prepend-inner-icon="mdi-lock-outline"
+      :append-inner-icon="isPasswordConfirmVisible ? 'mdi-eye-off' : 'mdi-eye'"
+      :type="isPasswordConfirmVisible ? 'text' : 'password'"
       @click:append-inner="isPasswordConfirmVisible = !isPasswordConfirmVisible"
       :rules="[requiredValidator, confirmPasswordRule]"
+      variant="outlined"
+      density="comfortable"
+      class="mb-6"
+      clearable
     />
 
     <v-btn
-      class="mt-4"
       color="green"
-      size="default"
-      variant="tonal"
+      variant="flat"
       block
-      type="submit"
-      :disabled="formAction.formProcess"
+      size="large"
+      class="rounded-lg"
       :loading="formAction.formProcess"
+      :disabled="formAction.formProcess"
+      @click="onFormSubmit"
+      prepend-icon="mdi-account-plus"
     >
-      Create
+      Create Account
     </v-btn>
   </v-form>
 </template>
+
+<style scoped>
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.v-form {
+  width: 100%;
+}
+
+.v-text-field {
+  max-width: 100%;
+}
+
+.mb-5 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-6 {
+  margin-bottom: 2rem;
+}
+
+.v-btn {
+  margin-top: 20px;
+}
+
+.text-green {
+  color: #4caf50;
+}
+</style>

@@ -1,37 +1,53 @@
 <script setup>
-// import { ref } from 'vue'
 import LoginForm from '@/assets/components/auth/LoginForm.vue'
+import logo from '@/assets/images/logo.png'
 </script>
 
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="4" md="4">
-        <v-img class="image">
-          <img src="@/assets/images/Logo.png" width="500" alt="Logo" />
-        </v-img>
-      </v-col>
-      <v-col cols="8" md="8">
-        <v-card class="mx-auto mt-16 card" elevation="16" max-width="500">
-          <v-card-item class="text-center pt-6">
-            <v-card-title class="font-weight-black">Marketplace</v-card-title>
-            <v-card-subtitle class="font-weight-light">LOG IN TO CONTINUE</v-card-subtitle>
-          </v-card-item>
-          <LoginForm></LoginForm>
+  <v-container fluid class="login-bg d-flex align-center justify-center pa-0 ma-0">
+    <v-row no-gutters align="center" justify="center" class="w-100">
+      <v-col cols="12" sm="10" md="8" lg="6">
+        <v-card
+          elevation="20"
+          class="rounded-xl d-flex flex-row overflow-hidden"
+          style="min-height: 600px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1)"
+        >
+          <!-- Left side (Logo) -->
+          <v-col
+            cols="12"
+            md="5"
+            class="pa-6 d-flex align-center justify-center"
+            style="background-color: #e3f2fd"
+          >
+            <v-img :src="logo" max-width="400" contain alt="Marketplace Logo" />
+          </v-col>
 
-          <v-card-text class="text-center text">
-            New User?
-            <router-link to="/Register" class="text-decoration-none">
-              <a
-                class="text-green text-decoration-none"
-                href="#"
-                rel="noopener noreferrer"
-                target="_blank"
+          <!-- Right side (Form) -->
+          <v-col
+            cols="12"
+            md="7"
+            class="pa-8 d-flex flex-column justify-center align-center"
+            style="background-color: #ffffff"
+          >
+            <div class="text-center mb-6" style="width: 100%">
+              <h2 class="text-h5 font-weight-bold mb-1">Welcome to Marketplace</h2>
+              <div class="text-subtitle-3 text-large-emphasis">Log in to continue</div>
+            </div>
+
+            <div class="login-form-container">
+              <LoginForm />
+            </div>
+
+            <div class="text-center mt-4">
+              <span class="text-body-2">New here?</span>
+              <router-link
+                to="/register"
+                class="text-green font-weight-medium text-decoration-none"
               >
-                Sign up now ! <v-icon icon="mdi-chevron-right"></v-icon>
-              </a>
-            </router-link>
-          </v-card-text>
+                Create an Account
+              </router-link>
+            </div>
+          </v-col>
         </v-card>
       </v-col>
     </v-row>
@@ -39,25 +55,59 @@ import LoginForm from '@/assets/components/auth/LoginForm.vue'
 </template>
 
 <style scoped>
-.image {
-  padding-top: 15%;
-  padding-left: 5%;
-  overflow: visible;
-}
-.card {
-  border-radius: 25px;
-  padding: 25px;
-  margin-top: 10% !important;
-  background-color: gainsboro;
+.login-bg {
+  background-color: #f7f7f7;
+  height: 100vh;
+  overflow: hidden;
 }
 
-body {
-  background-color: beige;
+.v-card {
+  background-color: white;
+  border-radius: 16px;
 }
-.text {
-  font-size: small;
+
+.text-center {
+  text-align: center;
 }
-* {
-  font-family: 'Arial';
+
+.text-body-2 {
+  font-size: 14px;
+}
+
+.text-green {
+  color: #4caf50;
+}
+
+.text-subtitle-2 {
+  font-size: 16px;
+  color: #666;
+}
+
+.router-link-active {
+  text-decoration: underline;
+}
+
+.v-img {
+  max-width: 100%;
+}
+
+.v-col {
+  padding: 0;
+}
+
+.v-btn {
+  margin-top: 20px;
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.v-col.pa-8 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
