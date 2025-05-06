@@ -107,11 +107,37 @@ onMounted(getUser)
       <v-container fluid class="pa-4">
         <v-row justify="center">
           <v-col cols="12" md="10" lg="8">
-            <h2 class="text-h5 font-weight-bold mb-6 text-center">👤 Profile Settings</h2>
+            <h2 class="text-h5 font-weight-bold mb-6 text-center text-primary">
+              👤 Profile Settings
+            </h2>
 
-            <v-card class="pa-6 rounded-xl" elevation="1" style="border: 1px solid #e5e5e5">
+            <!-- Updated v-card with refined design -->
+            <v-card
+              class="pa-8 rounded-xl elevation-5"
+              style="
+                background: #fafafa;
+                max-width: 1000px;
+                margin: 0 auto;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              "
+            >
               <div class="d-flex align-center mb-6">
-                <v-avatar size="96" class="elevation-1" style="border: 3px solid #ccc">
+                <v-avatar
+                  size="96"
+                  class="elevation-2"
+                  style="
+                    border: 3px solid #ccc;
+                    transition:
+                      transform 0.3s ease,
+                      border-color 0.3s ease;
+                  "
+                  @mouseover="hoverAvatar = true"
+                  @mouseleave="hoverAvatar = false"
+                  :style="{
+                    transform: hoverAvatar ? 'scale(1.1)' : 'scale(1)',
+                    borderColor: hoverAvatar ? '#42a5f5' : '#ccc',
+                  }"
+                >
                   <img
                     v-if="imageUrl"
                     :src="imageUrl"
@@ -152,9 +178,10 @@ onMounted(getUser)
                     label="Full Name"
                     v-model="userData.name"
                     :disabled="!isEditing"
-                    variant="plain"
+                    variant="filled"
                     hide-details
                     class="modern-field"
+                    outlined
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -162,9 +189,10 @@ onMounted(getUser)
                     label="Address"
                     v-model="userData.address"
                     :disabled="!isEditing"
-                    variant="plain"
+                    variant="filled"
                     hide-details
                     class="modern-field"
+                    outlined
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -174,9 +202,10 @@ onMounted(getUser)
                     disabled
                     append-inner-icon="mdi-check-circle"
                     color="success"
-                    variant="plain"
+                    variant="filled"
                     hide-details
                     class="modern-field"
+                    outlined
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -184,9 +213,10 @@ onMounted(getUser)
                     label="Contact No."
                     v-model="userData.contactNo"
                     :disabled="!isEditing"
-                    variant="plain"
+                    variant="filled"
                     hide-details
                     class="modern-field"
+                    outlined
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -195,16 +225,23 @@ onMounted(getUser)
                     type="birth_date"
                     v-model="userData.birth_date"
                     :disabled="!isEditing"
-                    variant="plain"
+                    variant="filled"
                     hide-details
                     class="modern-field"
+                    outlined
                   />
                 </v-col>
               </v-row>
 
               <v-divider class="mt-6 mb-4"></v-divider>
               <div class="d-flex justify-end">
-                <v-btn variant="flat" color="primary" class="text-capitalize" @click="toggleEdit">
+                <v-btn
+                  variant="contained"
+                  color="primary"
+                  class="text-capitalize"
+                  @click="toggleEdit"
+                  style="min-width: 150px"
+                >
                   {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
                 </v-btn>
               </div>

@@ -6,7 +6,7 @@ const menuItems = [
   {
     title: 'Dashboard',
     icon: 'mdi-view-dashboard',
-    route: '',
+    route: '/maindashboard',
   },
   {
     title: 'Products',
@@ -16,18 +16,18 @@ const menuItems = [
   {
     title: 'Orders',
     icon: 'mdi-cart-outline',
-    children: [{ title: 'All Orders', route: '' }],
+    children: [{ title: 'All Orders', route: '/orderView' }],
   },
   {
     title: 'Settings',
     icon: 'mdi-cog-outline',
-    route: '',
+    route: '/accountview',
   },
 ]
 </script>
 
 <template>
-  <v-app class="bg-green-lighten-5">
+  <v-app class="bg-green-lighten-5" style="min-height: 100vh">
     <!-- ================================
            App Bar (Top Navigation)
            ================================ -->
@@ -41,7 +41,7 @@ const menuItems = [
       <!-- Left Side -->
       <div class="d-flex align-center gap-3">
         <v-app-bar-nav-icon variant="text" @click="drawer = !drawer" />
-        <v-toolbar-title class="font-weight-bold mx-2"> MarketPlace </v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold mx-2">MarketPlace</v-toolbar-title>
       </div>
     </v-app-bar>
 
@@ -83,7 +83,7 @@ const menuItems = [
             :to="item.route"
             link
             class="my-1 px-6 py-3 transition-all duration-200 ease-in-out hover:bg-green-darken-3"
-            active-class="bg-green-dark text-white"
+            active-class="bg-green-dark text-black"
           >
             <div class="d-flex align-center gap-3">
               <v-icon size="36" color="success">{{ item.icon }}</v-icon>
@@ -97,8 +97,8 @@ const menuItems = [
     <!-- ================================
            Main Content Area
            ================================ -->
-    <v-main>
-      <v-container fluid>
+    <v-main class="d-flex flex-column" style="flex-grow: 1">
+      <v-container fluid class="flex-grow-1">
         <slot />
         <!-- OR: <router-view /> -->
       </v-container>
