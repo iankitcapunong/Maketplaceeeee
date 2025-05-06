@@ -71,7 +71,7 @@ const menuItems = [
               :to="child.route"
               link
               class="pl-10"
-              active-class="bg-green-dark text-white"
+              active-class="bg-green-dark text-black"
             >
               <v-list-item-title>{{ child.title }}</v-list-item-title>
             </v-list-item>
