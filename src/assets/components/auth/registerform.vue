@@ -134,7 +134,9 @@ const onFormSubmit = () => {
       size="large"
       class="rounded-lg"
       :loading="formAction.formProcess"
+      :disabled="formAction.formProcess"
       @click="onFormSubmit"
+      prepend-icon="mdi-account-plus"
     >
       Create Account
     </v-btn>

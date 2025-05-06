@@ -52,6 +52,7 @@ const onFormSubmit = () => {
   />
 
   <v-form ref="refVform" @submit.prevent="onFormSubmit" class="login-form">
+    <!-- Email Field -->
     <v-text-field
       v-model="formData.email"
       label="Email"
@@ -64,6 +65,7 @@ const onFormSubmit = () => {
       clearable
     />
 
+    <!-- Password Field -->
     <v-text-field
       v-model="formData.password"
       :type="isPasswordVisible ? 'text' : 'password'"
@@ -79,6 +81,7 @@ const onFormSubmit = () => {
       clearable
     />
 
+    <!-- Login Button -->
     <v-btn
       color="green"
       variant="flat"
@@ -87,6 +90,7 @@ const onFormSubmit = () => {
       class="rounded-lg"
       :loading="formAction.formProcess"
       @click="onFormSubmit"
+      prepend-icon="mdi-login"
     >
       Log In
     </v-btn>
