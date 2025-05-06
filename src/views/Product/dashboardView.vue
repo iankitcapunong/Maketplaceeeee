@@ -9,7 +9,7 @@ const quantity = ref(1)
 
 const fetchProducts = async () => {
   const { data, error } = await supabase.from('Products').select('*')
-  
+
   if (error) {
     console.error('Error fetching products:', error)
   } else {
@@ -37,17 +37,19 @@ const placeOrder = async () => {
 
   const { data, error } = await supabase
 
-  .from('Orders')
-  .insert([{
-    user_id: user.id,
-    quantity: quantity.value,
-    price: selectedProduct.value.price,
-    image_url: selectedProduct.value.image_url,
-    name: selectedProduct.value.name,
-    type: selectedProduct.value.type,
-    status: 'Pending'
-  }])
-  .select()
+    .from('Orders')
+    .insert([
+      {
+        user_id: user.id,
+        quantity: quantity.value,
+        price: selectedProduct.value.price,
+        image_url: selectedProduct.value.image_url,
+        name: selectedProduct.value.name,
+        type: selectedProduct.value.type,
+        status: 'Pending',
+      },
+    ])
+    .select()
 
   if (error) {
     console.error('Order failed:', error)
