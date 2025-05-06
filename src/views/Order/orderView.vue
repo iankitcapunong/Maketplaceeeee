@@ -8,8 +8,7 @@ const selectedOrderId = ref(null)
 const quantity = ref(1)
 
 const fetchOrders = async () => {
-  const { data, error } = await supabase.from('Orders').select('*')
-  .in('status', ['Pending'])
+  const { data, error } = await supabase.from('Orders').select('*').in('status', ['Pending'])
   if (error) {
     console.error('Error fetching Orders:', error)
   } else {
@@ -44,9 +43,10 @@ const openEditDialog = (order) => {
 const markAsDelivered = async (order_item_id) => {
   const { error } = await supabase
     .from('Orders')
-    .update({ 
-        quantity: quantity.value,
-        status: 'Delivered' })
+    .update({
+      quantity: quantity.value,
+      status: 'Delivered',
+    })
     .eq('order_item_id', order_item_id)
 
   if (error) {
@@ -113,57 +113,10 @@ onMounted(fetchOrders)
               >
                 {{ item.status }}
               </v-chip>
-            </template>
-
-            <template #item.actions="{ item }">
-              <v-tooltip text="Edit Order">
-                <template #activator="{ on, attrs }">
-                  <v-btn icon size="small" v-bind="attrs" v-on="on" @click="openEditDialog(item)">
-                    <v-icon>mdi-calendar-edit</v-icon>
-                  </v-btn>
-                  <v-btn icon size="x-small" color="red" @click="cancelOrder(order.order_item_id)">
-                    <v-icon size="16">mdi-cancel</v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-card-text>
-
-        <v-divider class="mt-2" />
-        <div class="d-flex justify-start" style="position: absolute; bottom: 16px; left: 16px;">
-          <v-btn color="green" rounded class="text-white" >
-            View History
-          </v-btn>
-        </div>
-      </v-card>
-    </v-col>
-  </v-row>
-
-    <!-- Edit Order Dialog -->
-    <v-dialog v-model="showOrderDialog" max-width="400">
-      <v-card class="rounded-xl">
-        <v-card-title class="text-h6 font-weight-medium">
-          Update Quantity & Mark as Delivered
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="quantity"
-            label="Quantity"
-            type="number"
-            min="1"
-            density="comfortable"
-            class="mb-4"
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn variant="text" @click="showOrderDialog = false">Cancel</v-btn>
-          <v-btn color="green" variant="flat" @click="markAsDelivered(selectedOrderId)">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+            </template></v-data-table-virtual
+          ></v-card
+        ></v-col
+      ></v-row
+    ></v-container
+  >
 </template>
-
-<style scoped></style>
