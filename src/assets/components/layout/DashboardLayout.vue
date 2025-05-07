@@ -31,25 +31,45 @@ const menuItems = [
   {
     title: 'Products',
     icon: 'mdi-cube-outline',
-    children: [{ title: 'All Products', route: '/dashboard' }],
+    children: [
+      {
+        title: 'All Products',
+        route: '/dashboard',
+        icon: 'mdi-format-list-bulleted',
+      },
+    ],
   },
   {
     title: 'Orders',
     icon: 'mdi-cart-outline',
     children: [
-      { title: 'My Orders', route: '/orderView' },
-      { title: 'Order History', route: '/orderhistory' },
+      {
+        title: 'My Orders',
+        route: '/orderView',
+        icon: 'mdi-cart-arrow-down',
+      },
+      {
+        title: 'Order History',
+        route: '/orderhistory',
+        icon: 'mdi-history',
+      },
     ],
   },
   {
     title: 'Account',
     icon: 'mdi-account-outline',
-    children: [{ title: 'Account Information', route: '/accountview' }],
+    children: [
+      {
+        title: 'Account Information',
+        route: '/accountview',
+        icon: 'mdi-account-box',
+      },
+    ],
   },
   {
     title: 'Logout',
     icon: 'mdi-logout',
-    action: onLogout, // Use an action instead of route
+    action: onLogout,
   },
 ]
 </script>
@@ -57,7 +77,13 @@ const menuItems = [
 <template>
   <v-app class="bg-green-lighten-5" style="min-height: 100vh">
     <!-- App Bar -->
-    <v-app-bar app color="success" dark elevation="3" class="px-4 d-flex align-center justify-space-between">
+    <v-app-bar
+      app
+      color="success"
+      dark
+      elevation="3"
+      class="px-4 d-flex align-center justify-space-between"
+    >
       <div class="d-flex align-center gap-3">
         <v-app-bar-nav-icon variant="text" @click="drawer = !drawer" />
         <v-toolbar-title class="font-weight-bold mx-2">MarketPlace</v-toolbar-title>
@@ -74,7 +100,9 @@ const menuItems = [
               <v-list-item v-bind="props" class="px-6 py-4">
                 <div class="d-flex align-center">
                   <v-icon size="36" color="success" class="me-2">{{ item.icon }}</v-icon>
-                  <v-list-item-title class="font-weight-medium mb-0">{{ item.title }}</v-list-item-title>
+                  <v-list-item-title class="font-weight-medium mb-0">{{
+                    item.title
+                  }}</v-list-item-title>
                 </div>
               </v-list-item>
             </template>
@@ -86,7 +114,10 @@ const menuItems = [
               class="pl-10"
               active-class="bg-green-dark text-black"
             >
-              <v-list-item-title>{{ child.title }}</v-list-item-title>
+              <div class="d-flex align-center">
+                <v-icon size="24" color="success" class="me-3">{{ child.icon }}</v-icon>
+                <v-list-item-title>{{ child.title }}</v-list-item-title>
+              </div>
             </v-list-item>
           </v-list-group>
 

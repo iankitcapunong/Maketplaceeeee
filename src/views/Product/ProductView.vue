@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { supabase } from '@/utils/supabase.js'
 import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 
@@ -7,6 +7,7 @@ const products = ref([])
 const dialog = ref(false)
 const selectedProduct = ref(null)
 const quantity = ref(1)
+const search = ref('')
 
 const fetchProducts = async () => {
   const { data, error } = await supabase.from('Products').select('*')
@@ -17,6 +18,13 @@ const fetchProducts = async () => {
     products.value = data
   }
 }
+
+const filteredProducts = computed(() => {
+  if (!search.value) return products.value
+  return products.value.filter((product) =>
+    product.name.toLowerCase().includes(search.value.toLowerCase()),
+  )
+})
 
 const openOrderDialog = (product) => {
   selectedProduct.value = product
@@ -77,16 +85,33 @@ onMounted(fetchProducts)
   <DashboardLayout>
     <template #default>
       <v-container fluid class="py-8">
-        <v-row>
-          <v-col cols="12" class="text-center mb-8">
-            <h2 class="text-h4 font-weight-bold text-green-darken-2 mb-2">🛒 Shop Our Products</h2>
+        <!-- Header Section -->
+        <v-row justify="center" class="text-center mb-4">
+          <v-col cols="12">
+            <h2 class="text-h4 font-weight-bold text-green-darken-2 mb-1">🛒 Shop Our Products</h2>
             <p class="text-subtitle-1 text-grey-darken-1">
               Select your favorite items and order instantly!
             </p>
           </v-col>
 
+          <!-- Search Bar -->
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="search"
+              label="Search for food..."
+              prepend-inner-icon="mdi-magnify"
+              variant="outlined"
+              clearable
+              density="comfortable"
+              color="green"
+            />
+          </v-col>
+        </v-row>
+
+        <!-- Product Cards -->
+        <v-row>
           <v-col
-            v-for="product in products"
+            v-for="product in filteredProducts"
             :key="product.product_id"
             cols="12"
             sm="6"
@@ -94,25 +119,24 @@ onMounted(fetchProducts)
             lg="3"
           >
             <v-card
-              class="elevation-2 rounded-lg pa-9 d-flex flex-column justify-between hover:elevation-8 hover:scale-105 transition-all"
+              class="elevation-1 rounded-lg pa-4 d-flex flex-column justify-between hover:elevation-5 transition-all"
               style="min-height: 100%; background-color: #ffffff"
             >
-              <v-img :src="product.image_url" height="350" class="rounded mb-4" />
-              <div class="d-flex flex-column">
-                <h3 class="text-body-1 font-weight-medium mb-2">{{ product.name }}</h3>
-                <p class="text-caption text-grey-darken-1 mb-1">{{ product.type }}</p>
-                <p class="text-caption mb-2">
-                  Stock: <strong>{{ product.stock }}</strong>
-                </p>
-                <p class="text-subtitle-2 text-green-darken-2 font-weight-bold mt-1">
-                  ₱{{ product.price.toLocaleString() }}
-                </p>
-              </div>
+              <v-img :src="product.image_url" height="200" class="rounded mb-3" cover />
+
+              <h3 class="text-subtitle-1 font-weight-medium mb-1">{{ product.name }}</h3>
+              <p class="text-caption text-grey-darken-1 mb-1">{{ product.type }}</p>
+              <p class="text-caption mb-1">
+                Stock: <strong>{{ product.stock }}</strong>
+              </p>
+              <p class="text-subtitle-2 text-green-darken-2 font-weight-bold mb-3">
+                ₱{{ product.price.toLocaleString() }}
+              </p>
 
               <v-btn
                 block
                 color="green"
-                class="rounded-pill text-white font-weight-medium mt-4"
+                class="rounded-pill text-white font-weight-medium"
                 @click="openOrderDialog(product)"
               >
                 Order Now
@@ -173,6 +197,7 @@ onMounted(fetchProducts)
           </v-card>
         </v-dialog>
 
+        <!-- Snackbar for messages -->
         <v-snackbar
           v-model="snackbar"
           :color="snackbarColor"

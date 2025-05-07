@@ -18,6 +18,11 @@ const userData = ref({
   avatar_url: '',
 })
 
+const snackbar = ref(false)
+const snackbarMessage = ref('')
+const snackbarColor = ref('success')
+const snackbarIcon = ref('mdi-check-circle')
+
 const getUser = async () => {
   const {
     data: { user },
@@ -58,7 +63,7 @@ const uploadImage = async () => {
   })
 
   if (error) {
-    alert('Upload failed!')
+    showSnackbar('Upload failed!', 'error')
     console.error(error)
     return null
   }
@@ -67,6 +72,13 @@ const uploadImage = async () => {
 
   imageUrl.value = data.publicUrl
   return data.publicUrl
+}
+
+const showSnackbar = (message, color = 'success') => {
+  snackbarMessage.value = message
+  snackbarColor.value = color
+  snackbarIcon.value = color === 'error' ? 'mdi-alert-circle' : 'mdi-check-circle'
+  snackbar.value = true
 }
 
 const toggleEdit = async () => {
@@ -84,9 +96,9 @@ const toggleEdit = async () => {
     const { error } = await supabase.auth.updateUser({ data: updatedData })
 
     if (error) {
-      alert('Failed to save.')
+      showSnackbar('Failed to save.', 'error')
     } else {
-      alert('Traveler profile saved successfully!')
+      showSnackbar('Traveler profile saved successfully!')
       await getUser()
     }
   } else {
@@ -246,6 +258,23 @@ onMounted(getUser)
           </v-card>
         </v-col>
       </v-container>
+
+      <!-- Snackbar for messages -->
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarColor"
+        timeout="3000"
+        location="top left"
+        rounded="pill"
+        elevation="8"
+      >
+        <template #default>
+          <div class="text-center">
+            <v-icon start size="20" class="me-2">{{ snackbarIcon }}</v-icon>
+            <span>{{ snackbarMessage }}</span>
+          </div>
+        </template>
+      </v-snackbar>
     </template>
   </DashboardLayout>
 </template>
