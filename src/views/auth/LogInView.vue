@@ -23,7 +23,8 @@ import logo from '@/assets/images/logo.png'
           </v-col>
 
           <!-- Right side (Form) -->
-          <v-col
+          <v-col 
+          
             cols="12"
             md="7"
             class="pa-8 d-flex flex-column justify-center align-center"
