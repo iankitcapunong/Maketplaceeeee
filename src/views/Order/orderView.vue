@@ -57,7 +57,7 @@ onMounted(fetchOrders)
 <template>
   <DashboardLayout>
     <template #default>
-      <v-container fluid class="pa-6">
+      <v-container fluid class="pa-6 ">
         <v-row>
           <v-col cols="12">
             <v-card class="pa-6 elevation-10 rounded-xl">
