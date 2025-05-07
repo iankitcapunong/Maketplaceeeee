@@ -34,7 +34,7 @@ import registerform from '@/assets/components/auth/registerform.vue'
             </div>
 
             <div class="register-form-container">
-              <RegisterForm />
+              <registerform />
             </div>
 
             <div class="text-center mt-4">
