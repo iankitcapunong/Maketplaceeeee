@@ -3,14 +3,12 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/utils/supabase'
 import DashboardLayout from '@/assets/components/layout/DashboardLayout.vue'
 
-// Data refs
 const totalOrders = ref(0)
 const pendingOrders = ref(0)
 const deliveredOrders = ref(0)
 const canceledOrders = ref(0)
 const recentOrders = ref([])
 
-// Fetch orders
 const fetchOrders = async () => {
   const { data, error } = await supabase.from('Orders').select('*')
   if (error) {
@@ -42,7 +40,6 @@ onMounted(fetchOrders)
         <h2 class="text-h4 font-weight-bold mb-6 text-success">
               🌿 Welcome to Your Order Dashboard
             </h2>
-                <!-- Stats Cards -->
                 <v-row dense>
           <v-col cols="12" sm="6" md="3">
             <v-card class="pa-4">
@@ -81,7 +78,6 @@ onMounted(fetchOrders)
           </v-btn>
         </div>
 
-        <!-- Table Section -->
         <v-card class="rounded-xl elevation-4">
           <v-sheet color="success" class="pa-4 rounded-t-xl">
             <h4 class="text-white mb-0">🗂 Recent Orders</h4>

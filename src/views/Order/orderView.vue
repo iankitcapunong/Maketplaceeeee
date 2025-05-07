@@ -61,12 +61,10 @@ onMounted(fetchOrders)
         <v-row>
           <v-col cols="12">
             <v-card class="pa-6 elevation-10 rounded-xl">
-              <!-- Title -->
               <v-card-title class="text-h4 font-weight-bold text-primary text-center mb-1">
                 📦 My Orders
               </v-card-title>
 
-              <!-- Subtitle -->
               <v-card-subtitle class="text-center text-body-1 text-medium-emphasis mb-4">
                 🛒 Manage and track all your purchases with ease.
               </v-card-subtitle>
@@ -106,7 +104,6 @@ onMounted(fetchOrders)
                     </td>
                     <td>
                       <div class="">
-                        <!-- Edit -->
                         <v-tooltip text="Edit Order">
                           <template #activator="{ on, attrs }">
                             <v-btn
@@ -129,7 +126,6 @@ onMounted(fetchOrders)
                 </tbody>
               </v-table>
 
-              <!-- Divider & CTA -->
               <v-divider class="my-4" />
 
               <v-row justify="end" class="pr-2 pb-1">
@@ -145,7 +141,6 @@ onMounted(fetchOrders)
           </v-col>
         </v-row>
 
-        <!-- Dialog -->
         <v-dialog v-model="showOrderDialog" max-width="400">
           <v-card class="rounded-xl">
             <v-card-title class="text-h6 font-weight-bold">

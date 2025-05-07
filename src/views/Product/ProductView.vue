@@ -85,7 +85,6 @@ onMounted(fetchProducts)
   <DashboardLayout>
     <template #default>
       <v-container fluid class="py-8">
-        <!-- Header Section -->
         <v-row justify="center" class="text-center mb-4">
           <v-col cols="12">
             <h2 class="text-h4 font-weight-bold text-green-darken-2 mb-1">🛒 Shop Our Products</h2>
@@ -94,7 +93,6 @@ onMounted(fetchProducts)
             </p>
           </v-col>
 
-          <!-- Search Bar -->
           <v-col cols="12" md="6">
             <v-text-field
               v-model="search"
@@ -108,7 +106,6 @@ onMounted(fetchProducts)
           </v-col>
         </v-row>
 
-        <!-- Product Cards -->
         <v-row>
           <v-col
             v-for="product in filteredProducts"
@@ -145,7 +142,6 @@ onMounted(fetchProducts)
           </v-col>
         </v-row>
 
-        <!-- Order Dialog -->
         <v-dialog v-model="dialog" max-width="500" persistent>
           <v-card class="rounded-lg pa-4 elevation-2">
             <v-card-title class="text-h5 font-weight-bold text-green-darken-2 pb-2">
@@ -197,7 +193,6 @@ onMounted(fetchProducts)
           </v-card>
         </v-dialog>
 
-        <!-- Snackbar for messages -->
         <v-snackbar
           v-model="snackbar"
           :color="snackbarColor"

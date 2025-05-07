@@ -11,7 +11,6 @@ import registerform from '@/assets/components/auth/registerform.vue'
           class="rounded-xl overflow-hidden d-flex flex-column flex-md-row"
           style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1)"
         >
-          <!-- Left side (Logo) -->
           <div
             class="pa-6 d-flex align-center justify-center flex-grow-1"
             style="background-color: #e3f2fd"
@@ -19,7 +18,6 @@ import registerform from '@/assets/components/auth/registerform.vue'
             <v-img src="/images/Logo.png" max-width="300" class="mx-auto" alt="Marketplace Logo" />
           </div>
 
-          <!-- Right side (Form) -->
           <div
             class="form-side pa-8 d-flex flex-column justify-center align-center flex-grow-1"
             style="background-color: #ffffff"

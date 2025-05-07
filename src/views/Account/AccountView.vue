@@ -6,7 +6,7 @@ import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 const isEditing = ref(false)
 const imageFile = ref(null)
 const imageUrl = ref('')
-const originalAvatarUrl = ref('') // 🆕 to store original image for cancel
+const originalAvatarUrl = ref('') 
 
 const userData = ref({
   email: '',
@@ -38,7 +38,7 @@ const getUser = async () => {
 
     if (userData.value.avatar_url) {
       imageUrl.value = userData.value.avatar_url
-      originalAvatarUrl.value = userData.value.avatar_url // store original
+      originalAvatarUrl.value = userData.value.avatar_url 
     }
   }
 }
@@ -47,7 +47,7 @@ const handleFileChange = (e) => {
   const file = e.target.files[0]
   imageFile.value = file
   if (file) {
-    imageUrl.value = URL.createObjectURL(file) // Show preview immediately
+    imageUrl.value = URL.createObjectURL(file) 
   }
 }
 
@@ -83,7 +83,6 @@ const showSnackbar = (message, color = 'success') => {
 
 const toggleEdit = async () => {
   if (isEditing.value) {
-    // Save
     const uploadedImageUrl = await uploadImage()
     const updatedData = {
       name: userData.value.name,
@@ -98,11 +97,10 @@ const toggleEdit = async () => {
     if (error) {
       showSnackbar('Failed to save.', 'error')
     } else {
-      showSnackbar('Traveler profile saved successfully!')
+      showSnackbar('Saved successfully!')
       await getUser()
     }
   } else {
-    // Cancel edit: restore original image preview
     imageUrl.value = originalAvatarUrl.value
     imageFile.value = null
   }
@@ -259,7 +257,6 @@ onMounted(getUser)
         </v-col>
       </v-container>
 
-      <!-- Snackbar for messages -->
       <v-snackbar
         v-model="snackbar"
         :color="snackbarColor"

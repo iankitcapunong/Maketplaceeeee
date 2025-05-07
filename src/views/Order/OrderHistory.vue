@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/utils/supabase.js'
 import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 
-// reactive variables
 const orders = ref([])
 
 const fetchOrders = async () => {
@@ -30,7 +29,6 @@ onMounted(fetchOrders)
         <v-row>
           <v-col cols="12">
             <v-card class="pa-6 elevation-10 rounded-xl">
-              <!-- Page Header -->
               <v-card-title class="text-h4 font-weight-bold text-primary text-center mb-1">
                 📦 Delivered Orders
               </v-card-title>
@@ -40,7 +38,6 @@ onMounted(fetchOrders)
 
               <v-divider class="mb-4" />
 
-              <!-- Table -->
               <v-table density="comfortable" class="v-table--striped text-center">
                 <thead>
                   <tr>
@@ -91,13 +88,9 @@ onMounted(fetchOrders)
                   </tr>
                 </tbody>
               </v-table>
-
-              <!-- No orders -->
               <div v-if="orders.length === 0" class="text-center py-6 text-medium-emphasis">
                 No delivered orders to show.
               </div>
-
-              <!-- CTA -->
               <v-divider class="my-4" />
               <v-row justify="end" class="pr-4 pb-2">
                 <v-col cols="auto">
