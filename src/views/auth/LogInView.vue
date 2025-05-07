@@ -1,5 +1,5 @@
 <script setup>
-import LoginForm from '@/assets/components/auth/LoginForm.vue'
+import loginform from '@/assets/components/auth/loginform.vue'
 </script>
 
 <template>
@@ -35,7 +35,7 @@ import LoginForm from '@/assets/components/auth/LoginForm.vue'
             </div>
 
             <div class="login-form-container">
-              <LoginForm />
+              <loginform />
             </div>
 
             <div class="text-center mt-4">
