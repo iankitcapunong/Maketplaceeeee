@@ -10,6 +10,7 @@ const quantity = ref(1)
 
 const fetchOrders = async () => {
   const { data, error } = await supabase.from('Orders').select('*')
+  .in('status', ['Pending'])
   if (error) {
     console.error('Error fetching Orders:', error)
   } else {
@@ -17,10 +18,6 @@ const fetchOrders = async () => {
   }
 }
 
-const cancelOrder = async (order_item_id) => {
-  await supabase.from('Orders').delete().eq('order_item_id', order_item_id)
-  fetchOrders()
-}
 
 const openEditDialog = (order) => {
   selectedOrderId.value = order.order_item_id
@@ -33,7 +30,6 @@ const markAsDelivered = async (order_item_id) => {
     .from('Orders')
     .update({
       quantity: quantity.value,
-      status: 'Delivered',
     })
     .eq('order_item_id', order_item_id)
 
@@ -127,21 +123,6 @@ onMounted(fetchOrders)
                           </template>
                         </v-tooltip>
 
-                        <!-- Cancel -->
-                        <v-tooltip text="Cancel Order">
-                          <template #activator="{ on, attrs }">
-                            <v-btn
-                              icon
-                              size="small"
-                              color="red"
-                              v-bind="attrs"
-                              v-on="on"
-                              @click="cancelOrder(order.order_item_id)"
-                            >
-                              <v-icon size="18">mdi-cancel</v-icon>
-                            </v-btn>
-                          </template>
-                        </v-tooltip>
                       </div>
                     </td>
                   </tr>

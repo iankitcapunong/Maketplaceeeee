@@ -7,7 +7,7 @@ import DashboardLayout from '../../assets/components/layout/DashboardLayout.vue'
 const orders = ref([])
 
 const fetchOrders = async () => {
-  const { data, error } = await supabase.from('Orders').select('*').in('status', ['Delivered'])
+  const { data, error } = await supabase.from('Orders').select('*').in('status', ['Delivered', 'Canceled'])
   if (error) {
     console.error('Error fetching Orders:', error)
   } else {
