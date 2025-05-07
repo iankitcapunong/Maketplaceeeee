@@ -48,7 +48,7 @@ const menuItems = [
   },
   {
     title: 'Logout',
-    icon: 'mdi-logout-outline',
+    icon: 'mdi-logout',
     action: onLogout, // Use an action instead of route
   },
 ]
