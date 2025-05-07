@@ -7,7 +7,6 @@ import AlertNotification from '@/assets/common/AlertNotification.vue'
 
 const router = useRouter()
 const refVform = ref()
-
 const isPasswordVisible = ref(false)
 
 const formDataDefault = {
@@ -16,14 +15,7 @@ const formDataDefault = {
 }
 const formData = ref({ ...formDataDefault })
 
-const formAction = ref({
-  ...formActionDefault,
-})
-
-// Optional: Can remove if not needed
-const onLogin = () => {
-  alert(JSON.stringify(formData.value, null, 2))
-}
+const formAction = ref({ ...formActionDefault })
 
 const onSubmit = async () => {
   formAction.value = { ...formActionDefault }
@@ -35,16 +27,13 @@ const onSubmit = async () => {
   })
 
   if (error) {
-    console.log(error)
     formAction.value.formErrorMessage = error.message
     formAction.value.formStatus = error.status
   } else if (data) {
-    console.log(data)
     formAction.value.formSuccessMessage = 'Successfully Logged In.'
-    router.replace('/system/dashboard')
+    router.replace('/dashboard')
   }
 
-  // Reset form and loading state
   refVform.value?.reset()
   formAction.value.formProcess = false
 }
@@ -62,36 +51,55 @@ const onFormSubmit = () => {
     :form-error-message="formAction.formErrorMessage"
   />
 
-  <v-form class="mt-5" ref="refVform" @submit.prevent="onFormSubmit">
-    <div class="text-subtitle-1 text-medium-emphasis pt-5">Email</div>
+  <v-form ref="refVform" @submit.prevent="onFormSubmit" class="login-form">
+    <!-- Email Field -->
     <v-text-field
       v-model="formData.email"
-      density="compact"
-      placeholder="Email address"
+      label="Email"
+      placeholder="example@domain.com"
       prepend-inner-icon="mdi-email-outline"
       :rules="[requiredValidator, emailValidator]"
       variant="outlined"
+      density="comfortable"
+      class="mb-5"
+      clearable
     />
 
-    <div
-      class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between text-green"
-    >
-      Password
-    </div>
+    <!-- Password Field -->
     <v-text-field
       v-model="formData.password"
-      :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
       :type="isPasswordVisible ? 'text' : 'password'"
-      density="compact"
+      label="Password"
       placeholder="Enter your password"
       prepend-inner-icon="mdi-lock-outline"
-      variant="outlined"
+      :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
       @click:append-inner="isPasswordVisible = !isPasswordVisible"
       :rules="[requiredValidator]"
+      variant="outlined"
+      density="comfortable"
+      class="mb-6"
+      clearable
     />
 
-    <v-btn class="mt-4" color="green" size="default" variant="tonal" block @click="onFormSubmit">
+    <!-- Login Button -->
+    <v-btn
+      color="green"
+      variant="flat"
+      block
+      size="large"
+      class="rounded-lg"
+      :loading="formAction.formProcess"
+      @click="onFormSubmit"
+      prepend-icon="mdi-login"
+    >
       Log In
     </v-btn>
   </v-form>
 </template>
+
+<style scoped>
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+</style>
