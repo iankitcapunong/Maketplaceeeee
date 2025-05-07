@@ -33,9 +33,7 @@ const placeOrder = async () => {
     showSnackbar('Please log in to place an order.')
     return
   }
-
   const total_price = selectedProduct.value.price * quantity.value
-
   const { data, error } = await supabase
     .from('Orders')
     .insert([
