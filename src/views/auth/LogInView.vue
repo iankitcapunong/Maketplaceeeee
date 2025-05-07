@@ -1,6 +1,5 @@
 <script setup>
 import LoginForm from '@/assets/components/auth/LoginForm.vue'
-import logo from '@/assets/images/logo.png'
 </script>
 
 <template>
@@ -19,7 +18,7 @@ import logo from '@/assets/images/logo.png'
             class="pa-6 d-flex align-center justify-center"
             style="background-color: #e3f2fd"
           >
-            <v-img :src="logo" max-width="400" contain alt="Marketplace Logo" />
+            <v-img src="/images/Logo.png" max-width="400" contain alt="Marketplace Logo" />
           </v-col>
 
           <!-- Right side (Form) -->
